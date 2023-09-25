@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 
 T = TypeVar('T', bound='Chromosome')
 
+
 class Chromosome(ABC):
 
     @abstractmethod
