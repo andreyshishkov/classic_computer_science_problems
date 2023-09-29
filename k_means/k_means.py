@@ -33,7 +33,7 @@ class KMeans(Generic[Point]):
         if k < 1:
             raise ValueError('K must be >= 1')
         self._points: List[Point] = points
-        self._zscore_normalize()
+        self._z_score_normalize()
 
         self._clusters: List[Cluster] = []
 
@@ -61,7 +61,7 @@ class KMeans(Generic[Point]):
                 z_scored[index].append(z_score)
 
         for i in range(len(self._points)):
-            self._points[i].dimensions = tuple[z_scored[i]]
+            self._points[i].dimensions = tuple(z_scored[i])
 
     def _get_random_point(self) -> DataPoint:
         rand_dimensions: List[float] = []
@@ -99,3 +99,14 @@ class KMeans(Generic[Point]):
             if old_centroids == self._centroids:
                 print(f'Converaged after {iteration} iterations')
                 return
+
+
+if __name__ == "__main__":
+    point1: DataPoint = DataPoint([2.0, 1.0, 1.0])
+    point2: DataPoint = DataPoint([2.0, 2.0, 5.0])
+    point3: DataPoint = DataPoint([3.0, 1.5, 2.5])
+    kmeans_test: KMeans[DataPoint] = KMeans(2, [point1, point2, point3])
+    kmeans_test.run()
+    test_clusters: List[Cluster] = kmeans_test.get_clusters()
+    for index, cluster in enumerate(test_clusters):
+        print(f"Cluster {index}: {cluster.points}")
